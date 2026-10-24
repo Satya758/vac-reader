@@ -8,7 +8,7 @@
 <meta name="description" content="VacReader reads books, web pages and PDFs aloud on your Mac, at your pace, in the voice you choose. Private, local, free and MIT licensed.">
 <meta property="og:title" content="VacReader — read at your pace, in your voice">
 <meta property="og:description" content="A free, local text-to-speech reader for Mac and Chrome. Your text never leaves your Mac.">
-<meta property="og:image" content="icon.png">
+<meta property="og:image" content="https://satya758.github.io/vac-reader/icon.png">
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,6 +139,7 @@ nav.links a:hover { color: var(--ink); }
 .s { border-radius: 3px; transition: background-color 180ms ease, color 180ms ease; cursor: pointer; }
 .s.on { background: var(--mark); color: var(--mark-ink); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .s:hover:not(.on) { background: var(--chip); }
+.s:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .controls { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.9rem; padding: 0.9rem 1.2rem; border-top: 1px solid var(--rule); background: var(--chip); }
 .play { width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; cursor: pointer; }
 .play svg { width: 18px; height: 18px; }
@@ -200,6 +201,7 @@ td.lic { font-family: var(--f-mono); font-size: 0.82rem; white-space: nowrap; }
 .dl .meta { font: 400 0.82rem/1.5 var(--f-mono); color: var(--muted); }
 .dl ol { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; color: var(--muted); font-size: 0.97rem; }
 .dl ol strong { color: var(--ink); }
+[hidden] { display: none !important; }
 .counter { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 2rem; margin-top: 2rem; padding: 1.2rem 1.4rem; border-radius: 12px; background: var(--chip); }
 .counter b { font: 800 var(--step-3)/1 var(--f-display); font-variant-numeric: tabular-nums; }
 .counter span { color: var(--muted); font-size: var(--step--1); }
@@ -262,7 +264,7 @@ footer p + p { margin-top: 0.6rem; }
           </a>
         </div>
         <p class="fine">
-          <span>Version <strong id="ver">0.5.2</strong> · Alpha</span>
+          <span>Version <strong id="ver">0.5.3</strong> · Alpha</span>
           <span>Apple Silicon · macOS 15+ · Chrome 116+</span>
           <span id="dl-inline" hidden><strong id="dl-inline-n">0</strong> downloads</span>
         </p>
@@ -324,7 +326,7 @@ footer p + p { margin-top: 0.6rem; }
         </div>
         <div class="reason">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></div>
-          <div><h3>Many models to choose from</h3><p>Kokoro, Qwen3-TTS, Chatterbox, CosyVoice, Fish Speech, KittenTTS and more. Try a small fast one, or a larger one for richer voices, and switch while you read.</p><span class="tag" id="model-count-tag">23 speech models</span></div>
+          <div><h3>Many models to choose from</h3><p>Kokoro, Qwen3-TTS, Chatterbox, CosyVoice, Fish Speech, KittenTTS and more. Try a small fast one, or a larger one for richer voices, and switch while you read.</p><span class="tag" id="model-count-tag">20 speech models</span></div>
         </div>
         <div class="reason">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6L13 3Z"/></svg></div>
@@ -391,16 +393,16 @@ footer p + p { margin-top: 0.6rem; }
         <div class="dl">
           <h3>Chrome extension</h3>
           <p class="meta">Chrome 116+ or another Chromium browser · <span id="ext-file">Extension zip</span></p>
-          <div><a class="btn ghost" id="dl-ext" href="https://github.com/Satya758/vac-reader/releases/latest">Download extension</a></div>
           <ol>
-            <li>The Mac app already includes the extension in <code>~/Library/Application Support/QwenReader Extension</code>. The zip is the same files.</li>
+            <li>Install the Mac app first. It puts the extension in <code>~/Library/Application Support/QwenReader Extension</code> and keeps that folder up to date.</li>
             <li>Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong> and click <strong>Load unpacked</strong>.</li>
-            <li>Choose that folder, then pin VacReader to the toolbar. Leave Developer mode on so updates keep working.</li>
+            <li>Choose that folder. Library is hidden in the file picker: press <strong>⌘⇧G</strong> and paste the path above. Then pin VacReader to the toolbar and leave Developer mode on so updates keep working.</li>
           </ol>
+          <p class="meta">No Mac app here? <a id="dl-ext" href="https://github.com/Satya758/vac-reader/releases/latest">Download the extension zip</a>. A folder loaded from the zip does not update; load a new zip after each release.</p>
         </div>
       </div>
       <div class="counter" id="counter">
-        <div><b id="dl-total">—</b> <span>downloads so far</span></div>
+        <div><b id="dl-total">—</b> <span>Mac app downloads, in-app updates included</span></div>
         <div><b id="dl-releases">—</b> <span>releases</span></div>
         <span id="dl-src">Counted live from GitHub Releases.</span>
       </div>
@@ -469,31 +471,28 @@ footer p + p { margin-top: 0.6rem; }
 
 <script>
 (() => {
-  // ---- Model credits (mirrors clients/macos/Attribution.swift) ----
+  // ---- Model credits: Attribution.swift credits, ModelManifest.swift non_commercial, ModelRanking.cloning ----
   const MODELS = [
     ["Kokoro 82M", "hexgrad", "hexgrad/Kokoro-82M", "Apache-2.0"],
     ["Qwen3-TTS 0.6B", "Qwen team, Alibaba Cloud", "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice", "Apache-2.0"],
     ["Qwen3-TTS 0.6B Base", "Qwen team, Alibaba Cloud", "Qwen/Qwen3-TTS-12Hz-0.6B-Base", "Apache-2.0", "clone"],
     ["Chatterbox Turbo", "Resemble AI", "ResembleAI/chatterbox-turbo", "MIT", "clone"],
-    ["Chatterbox Nano", "Resemble AI", "ResembleAI/chatterbox", "MIT"],
-    ["Chatterbox 0.5B", "Resemble AI", "ResembleAI/chatterbox", "MIT"],
+    ["Chatterbox Nano", "Resemble AI", "ResembleAI/chatterbox", "MIT", "clone"],
+    ["Chatterbox 0.5B", "Resemble AI", "ResembleAI/chatterbox", "MIT", "clone"],
     ["CosyVoice 2", "FunAudioLLM (Alibaba Tongyi Lab)", "FunAudioLLM/CosyVoice2-0.5B", "Apache-2.0"],
-    ["CosyVoice 3", "FunAudioLLM (Alibaba Tongyi Lab)", "FunAudioLLM/Fun-CosyVoice3-0.5B-2512", "Apache-2.0"],
     ["Fish Speech 1.5", "Fish Audio", "fishaudio/fish-speech-1.5", "CC-BY-NC-SA-4.0", "nc clone"],
     ["Spark-TTS 0.5B", "SparkAudio", "SparkAudio/Spark-TTS-0.5B", "CC-BY-NC-SA-4.0", "nc"],
     ["F5-TTS v1 Base", "SWivid (F5-TTS authors)", "SWivid/F5-TTS", "CC-BY-NC-4.0", "nc"],
     ["MioTTS 0.1B", "Aratako", "Aratako/MioTTS-0.1B", "TII-Falcon-License", "nc"],
-    ["NeuTTS Air", "Neuphonic", "neuphonic/neutts-air", "Apache-2.0"],
     ["OpenVoice V2", "MyShell", "myshell-ai/OpenVoiceV2", "MIT"],
-    ["Parler-TTS Mini", "Hugging Face", "parler-tts/parler-tts-mini-v1", "Apache-2.0"],
     ["Pocket TTS", "Kyutai", "kyutai/pocket-tts-without-voice-cloning", "CC-BY-4.0"],
-    ["MOSS-TTS-Nano", "OpenMOSS", "OpenMOSS-Team/MOSS-TTS-Nano-100M", "Apache-2.0"],
+    ["MOSS-TTS-Nano", "OpenMOSS", "OpenMOSS-Team/MOSS-TTS-Nano-100M", "Apache-2.0", "clone"],
     ["Supertonic 3", "Supertone", "Supertone/supertonic-3", "OpenRAIL-M"],
     ["KittenTTS Nano 0.8", "KittenML", "KittenML/kitten-tts-nano-0.8-fp32", "Apache-2.0"],
     ["KittenTTS Micro 0.8", "KittenML", "KittenML/kitten-tts-micro-0.8", "Apache-2.0"],
     ["KittenTTS Mini 0.8", "KittenML", "KittenML/kitten-tts-mini-0.8", "Apache-2.0"],
     ["Ming-3.0-TTS 0.5B", "inclusionAI", "inclusionAI/Ming-3.0-tts-0.5B", "MIT", "clone"],
-    ["Magpie-TTS Multilingual 357M", "NVIDIA", "nvidia/magpie_tts_multilingual_357m", "NVIDIA-Open-Model-License"],
+    ["Magpie-TTS Multilingual 357M", "NVIDIA", "nvidia/magpie_tts_multilingual_357m", "NVIDIA-Open-Model-License", "nc"],
   ];
   const rows = document.getElementById("model-rows");
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -522,7 +521,8 @@ footer p + p { margin-top: 0.6rem; }
   const icoPlay = document.getElementById("ico-play");
   const icoPause = document.getElementById("ico-pause");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let idx = 0, playing = !reduced, timer = null;
+  // done: share of the current sentence already read, so a pace change keeps the place.
+  let idx = 0, playing = !reduced, timer = null, done = 0, startedAt = 0, span = 0;
 
   const speed = () => parseFloat(rate.value);
   // About 15 characters per second of speech at 1×.
@@ -536,14 +536,24 @@ footer p + p { margin-top: 0.6rem; }
     icoPlay.hidden = playing;
     icoPause.hidden = !playing;
   };
+  const progress = () => { if (timer !== null && span > 0) done = Math.min(1, done + (performance.now() - startedAt) / span); };
   const schedule = () => {
     clearTimeout(timer);
+    timer = null;
     if (!playing) return;
-    timer = setTimeout(() => { idx = (idx + 1) % sentences.length; render(); schedule(); }, duration(sentences[idx]));
+    span = duration(sentences[idx]);
+    startedAt = performance.now();
+    timer = setTimeout(() => { timer = null; idx = (idx + 1) % sentences.length; done = 0; render(); schedule(); }, span * (1 - done));
   };
-  playBtn.addEventListener("click", () => { playing = !playing; render(); schedule(); });
-  rate.addEventListener("input", () => { render(); schedule(); });
-  sentences.forEach((s, i) => s.addEventListener("click", () => { idx = i; render(); schedule(); }));
+  const jump = (i) => { idx = i; done = 0; render(); schedule(); };
+  playBtn.addEventListener("click", () => { progress(); playing = !playing; render(); schedule(); });
+  rate.addEventListener("input", () => { progress(); render(); schedule(); });
+  sentences.forEach((s, i) => {
+    s.tabIndex = 0;
+    s.setAttribute("role", "button");
+    s.addEventListener("click", () => jump(i));
+    s.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); jump(i); } });
+  });
   render();
   schedule();
 
@@ -553,8 +563,9 @@ footer p + p { margin-top: 0.6rem; }
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
     .then((releases) => {
       const published = releases.filter((r) => !r.draft);
+      // Mac app zips only: the extension zip is the same files, so counting it would double-count people.
       let total = 0;
-      for (const r of published) for (const a of r.assets) if (a.name.endsWith(".zip")) total += a.download_count;
+      for (const r of published) for (const a of r.assets) if (/^VacReader-[\d.]+-[0-9a-f]+\.zip$/.test(a.name)) total += a.download_count;
       const latest = published.find((r) => !r.prerelease) || published[0];
       if (latest) {
         document.getElementById("ver").textContent = latest.tag_name.replace(/^v/, "");
