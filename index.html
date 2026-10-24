@@ -115,7 +115,7 @@ nav.links a:hover { color: var(--ink); }
 
 /* Hero */
 .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(2.5rem, 6vw, 4.5rem); }
-@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
 .hero-copy { display: grid; gap: 1.4rem; min-width: 0; }
 .hero h1 { font-size: var(--step-4); font-weight: 800; }
 .hero h1 mark { background: linear-gradient(transparent 12%, var(--mark) 12%, var(--mark) 88%, transparent 88%); color: var(--mark-ink); padding-inline: 0.08em; border-radius: 3px; }
@@ -197,22 +197,22 @@ td.lic { font-family: var(--f-mono); font-size: 0.82rem; white-space: nowrap; }
 @media (max-width: 820px) { .dl-grid { grid-template-columns: 1fr; } }
 .dl { display: grid; gap: 1rem; align-content: start; padding: 1.6rem; border-radius: 14px; border: 1px solid var(--rule); background: var(--surface); min-width: 0; }
 .dl.main { border: 2px solid var(--accent); }
+.dl.wide { grid-column: 1 / -1; }
 .dl h3 { font-size: var(--step-2); }
 .dl .meta { font: 400 0.82rem/1.5 var(--f-mono); color: var(--muted); }
 .dl ol { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; color: var(--muted); font-size: 0.97rem; }
 .dl ol strong { color: var(--ink); }
+.shot { margin: 0; display: grid; gap: 0.45rem; }
+.shot img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--rule); box-shadow: 0 6px 18px rgb(0 0 0 / 0.08); }
+.shot.popup img { max-width: 320px; }
+.shot figcaption { font-size: 0.85rem; color: var(--muted); }
+.dl.wide .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.4rem; align-items: start; }
+@media (max-width: 820px) { .dl.wide .split { grid-template-columns: 1fr; } }
 [hidden] { display: none !important; }
 .counter { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 2rem; margin-top: 2rem; padding: 1.2rem 1.4rem; border-radius: 12px; background: var(--chip); }
 .counter b { font: 800 var(--step-3)/1 var(--f-display); font-variant-numeric: tabular-nums; }
 .counter span { color: var(--muted); font-size: var(--step--1); }
 
-/* Community */
-.community { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
-@media (max-width: 820px) { .community { grid-template-columns: 1fr; } }
-.community p { color: var(--muted); }
-.community .stack { display: grid; gap: 1rem; min-width: 0; }
-.voicefile { border: 1px dashed var(--rule); border-radius: 12px; padding: 1.2rem; font: 400 0.85rem/1.6 var(--f-mono); color: var(--muted); background: var(--surface); overflow-x: auto; }
-.voicefile b { color: var(--ink); }
 
 /* FAQ */
 .faq { display: grid; gap: 0; max-width: 50rem; }
@@ -240,7 +240,7 @@ footer p + p { margin-top: 0.6rem; }
     <nav class="links" aria-label="Sections">
       <a class="opt" href="#why">Why VacReader</a>
       <a class="opt" href="#models">Models</a>
-      <a class="opt" href="#voices">Voices</a>
+      <a class="opt" href="#tutorial">Tutorial</a>
       <a href="#download">Download</a>
     </nav>
   </div>
@@ -264,7 +264,7 @@ footer p + p { margin-top: 0.6rem; }
           </a>
         </div>
         <p class="fine">
-          <span>Version <strong id="ver">0.5.3</strong> · Alpha</span>
+          <span>Version <strong id="ver">0.5.4</strong> · Alpha</span>
           <span>Apple Silicon · macOS 15+ · Chrome 116+</span>
           <span id="dl-inline" hidden><strong id="dl-inline-n">0</strong> downloads</span>
         </p>
@@ -394,7 +394,7 @@ footer p + p { margin-top: 0.6rem; }
           <h3>Chrome extension</h3>
           <p class="meta">Chrome 116+ or another Chromium browser · <span id="ext-file">Extension zip</span></p>
           <ol>
-            <li>Install the Mac app first. It puts the extension in <code>~/Library/Application Support/QwenReader Extension</code> and keeps that folder up to date.</li>
+            <li>Install the Mac app first. It puts the extension in <code>~/Library/Application Support/VacReader Extension</code> and keeps that folder up to date.</li>
             <li>Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong> and click <strong>Load unpacked</strong>.</li>
             <li>Choose that folder. Library is hidden in the file picker: press <strong>⌘⇧G</strong> and paste the path above. Then pin VacReader to the toolbar and leave Developer mode on so updates keep working.</li>
           </ol>
@@ -409,22 +409,50 @@ footer p + p { margin-top: 0.6rem; }
     </div>
   </section>
 
-  <section class="block" id="voices">
-    <div class="wrap community">
-      <div class="stack">
-        <span class="eyebrow">Community voices · Coming later</span>
-        <h2 style="font-size: var(--step-3)">A shared library of voices is on the way.</h2>
-        <p>Today you can clone a voice in the app and send it to a friend as a <code>.qrvoice</code> file. They open it in VacReader and it is ready to read with.</p>
-        <p>A public gallery, where anyone can share voices and rate the ones they like, comes after the alpha. It needs good review and abuse protection first, so we are taking it slowly.</p>
+  <section class="block" id="tutorial">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Tutorial</span>
+        <h2>Pick a model, then read a page in Chrome.</h2>
       </div>
-      <div class="voicefile" aria-label="What a voice file contains">
-        <b>narrator-warm.qrvoice</b><br>
-        ├─ voice.json &nbsp;&nbsp;label, format, checksums<br>
-        ├─ turbo.safetensors<br>
-        ├─ chatterbox.safetensors<br>
-        └─ fish.safetensors<br><br>
-        Model conditioning weights only.<br>
-        Your original recording stays on your Mac.
+      <div class="dl-grid">
+        <div class="dl">
+          <h3>1 · Pick a model in the Mac app</h3>
+          <ol>
+            <li>Click the VacReader icon in the menu bar to open <strong>Settings</strong>, then choose <strong>Models</strong>.</li>
+            <li>Press <strong>Download</strong> on a model. Kokoro 82M is small and quick, so it makes a good first pick. Wait for the bar to fill.</li>
+            <li>Press <strong>Use this model</strong>. The card shows its progress while the model loads, then <strong>In use</strong>.</li>
+            <li>Choose a voice from the <strong>Voice</strong> menu on that card.</li>
+            <li>To switch later, right-click the menu bar icon and open <strong>Model</strong>. You can switch while reading: VacReader goes on from the same sentence in the new voice.</li>
+          </ol>
+          <figure class="shot"><img src="tutorial/mac-models.webp" alt="The Models pane of VacReader Settings: a search box, filters such as Recommended and Cloning, and a model card with Voice, Backend and Weights menus and a Download button." width="780" height="592" loading="lazy"><figcaption>Settings → Models. Download a model, then press Use this model.</figcaption></figure>
+        </div>
+        <div class="dl">
+          <h3>2 · Read a page in Chrome</h3>
+          <ol>
+            <li>Pin VacReader first: click the puzzle-piece <strong>Extensions</strong> button in Chrome’s toolbar, then the pin next to <strong>VacReader</strong>. Its button now stays in the toolbar, and you press it to play.</li>
+            <li>Open an article. To read only part of it, select that text first.</li>
+            <li>Click the VacReader button in the toolbar and press <strong>▶ Read this page</strong> (or <strong>▶ Read selection</strong>). <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> does the same.</li>
+            <li>VacReader highlights each sentence as it reads it. A small status box in the corner of the page has the same buttons.</li>
+            <li>Use <strong>⏮ ▶ ⏭</strong> to move between sentences, play and pause. The slider in the popup sets the speed. <strong>✕</strong> stops reading.</li>
+            <li>To start from a different sentence, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+click it. Each tab keeps its own place, so you can come back to a tab and press ▶ to go on.</li>
+          </ol>
+          <figure class="shot popup"><img src="tutorial/popup.webp" alt="The VacReader popup with a Read this page button, and Record my voice, Use this tab's voice and Read a book below it." width="380" height="321" loading="lazy"><figcaption>The popup, ready to read.</figcaption></figure>
+          <figure class="shot"><img src="tutorial/page-reading.webp" alt="An article being read aloud. The current sentence is highlighted in yellow, and a VacReader status box with previous, pause, next and stop buttons sits in the bottom corner." width="1200" height="974" loading="lazy"><figcaption>The sentence being read is highlighted. The status box sits in the corner.</figcaption></figure>
+        </div>
+        <div class="dl wide">
+          <h3>3 · Add your own voice</h3>
+          <div class="split">
+          <ol>
+            <li>In the Mac app, open <strong>Models</strong> and download a model that clones voices. Chatterbox Turbo with the <strong>Chatterbox voice cloning</strong> add-on is a good start. Fish Speech, MOSS-TTS-Nano and Ming clone too. Press <strong>Use this model</strong>.</li>
+            <li>In Chrome, click the VacReader button and press <strong>🎙 Record my voice</strong>. Read the text shown aloud in your normal voice for about 20 seconds.</li>
+            <li>Tick the box to confirm the voice is yours, then press <strong>Save voice</strong>. VacReader reads with it straight away.</li>
+            <li>To use someone else’s voice from a video, and only with their permission, open the video tab and press <strong>▶ Use this tab’s voice</strong>. Record 10 to 30 seconds where only that person speaks.</li>
+            <li><strong>Manage my voices</strong>, linked from the recording panel, lists your voices. Press <strong>Use with …</strong> to read with one. In the Mac app’s <strong>Voices</strong> pane, <strong>Share…</strong> saves a voice as a <code>.qrvoice</code> file, and <strong>Add Voice from File…</strong> adds one someone shared with you.</li>
+          </ol>
+          <figure class="shot"><img src="tutorial/my-voices.webp" alt="The My voices page: a Record my voice tab with a short script to read aloud and a red Record button." width="1200" height="827" loading="lazy"><figcaption>Record my voice: read the script aloud, then save.</figcaption></figure>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -448,7 +476,6 @@ footer p + p { margin-top: 0.6rem; }
     <div>
       <a class="brand" href="#top"><img src="icon.png" alt="" width="28" height="28">VacReader</a>
       <p style="margin-top: 0.8rem">Free, local text-to-speech reading for Mac and Chrome. Released under the MIT license.</p>
-      <p>Speech engine based on the qwen3-tts engine by Gabriele Mastrapasqua (MIT). Model weights belong to their makers and keep their own licenses.</p>
     </div>
     <div>
       <h4>Get it</h4>
@@ -456,6 +483,7 @@ footer p + p { margin-top: 0.6rem; }
         <li><a href="https://github.com/Satya758/vac-reader/releases/latest">Latest release</a></li>
         <li><a href="https://github.com/Satya758/vac-reader/releases">All releases</a></li>
         <li><a href="#download">Install guide</a></li>
+        <li><a href="#tutorial">Tutorial</a></li>
       </ul>
     </div>
     <div>
