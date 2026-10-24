@@ -274,13 +274,13 @@ footer p + p { margin-top: 0.6rem; }
         <div class="reader" role="group" aria-label="Reading demo">
           <div class="reader-top" aria-hidden="true">
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <span class="file">pride-and-prejudice.epub — Chapter 1</span>
+            <span class="file">the-dragon-of-emberfell.epub — Chapter 1</span>
           </div>
           <div class="page" id="page">
             <div class="chapter">Chapter I</div>
-            <p><span class="s">It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.</span></p>
-            <p><span class="s">However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.</span></p>
-            <p><span class="s">“My dear Mr. Bennet,” said his lady to him one day, “have you heard that Netherfield Park is let at last?”</span> <span class="s">Mr. Bennet replied that he had not.</span></p>
+            <p><span class="s">High above the village of Emberfell, a small green dragon named Moss slept curled around a pile of borrowed library books.</span></p>
+            <p><span class="s">Every evening the children climbed the hill with lanterns, because Moss had promised to read them one more chapter before the stars came out.</span></p>
+            <p><span class="s">“Which story tonight?” asked Wren, the bravest of them, settling onto a warm scale.</span> <span class="s">Moss smiled, opened the oldest book, and began to read aloud.</span></p>
           </div>
           <div class="controls">
             <button class="play" id="play" type="button" aria-label="Pause">
@@ -561,8 +561,9 @@ footer p + p { margin-top: 0.6rem; }
     const buffer = Math.max(4, Math.round(16 - speed() * 3));
     status.textContent = `${playing ? "Playing" : "Paused"} · ${speed().toFixed(2)}× · buffer ${buffer} s · Kokoro 82M · sentence ${idx + 1}/${sentences.length}`;
     playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
-    icoPlay.hidden = playing;
-    icoPause.hidden = !playing;
+    // SVG elements have no .hidden property, so set the attribute itself.
+    icoPlay.toggleAttribute("hidden", playing);
+    icoPause.toggleAttribute("hidden", !playing);
   };
   const progress = () => { if (timer !== null && span > 0) done = Math.min(1, done + (performance.now() - startedAt) / span); };
   const schedule = () => {
